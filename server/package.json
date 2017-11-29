@@ -1,0 +1,33 @@
+{
+  "name": "ngblog-server",
+  "version": "1.0.0",
+  "description": "Node.js server for ngblog.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eeevgeniev/ngblog.git"
+  },
+  "keywords": [
+    "server",
+    "ngblog"
+  ],
+  "author": "eevgeniev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eeevgeniev/ngblog/issues"
+  },
+  "homepage": "https://github.com/eeevgeniev/ngblog#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.2",
+    "jsonwebtoken": "^8.1.0",
+    "mongoose": "^4.13.5",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0"
+  }
+}
