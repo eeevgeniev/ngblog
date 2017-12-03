@@ -1,18 +1,29 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
-
+import { FormsModule } from '@angular/forms'
+import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
-
+import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './login/login.component';
+import { BlogRoutingModule } from  './blog-routing/blog-routing.module';
+import { CreateArticleComponent } from './create-article/create-article.component';
+import { BlogStoreService } from './blog-store.service';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    RegisterComponent,
+    LoginComponent,
+    CreateArticleComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    FormsModule,
+    HttpClientModule,
+    BlogRoutingModule
   ],
-  providers: [],
+  providers: [BlogStoreService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+
+export class AppModule { };
