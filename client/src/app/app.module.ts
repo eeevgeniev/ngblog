@@ -8,6 +8,7 @@ import { LoginComponent } from './login/login.component';
 import { BlogRoutingModule } from  './blog-routing/blog-routing.module';
 import { CreateArticleComponent } from './create-article/create-article.component';
 import { BlogStoreService } from './blog-store.service';
+import { HttpRequesterService } from './http-requester.service';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,9 @@ import { BlogStoreService } from './blog-store.service';
     HttpClientModule,
     BlogRoutingModule
   ],
-  providers: [BlogStoreService],
+  providers: [
+    BlogStoreService, 
+    HttpRequesterService],
   bootstrap: [AppComponent]
 })
 

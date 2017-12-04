@@ -26,4 +26,12 @@ export class BlogStoreService {
     
     return true;
   }
+
+  public getToken(): string {
+    return localStorage.getItem(this.token);
+  }
+
+  public getUser(): string {
+    return localStorage.getItem(this.user);
+  }
 };
