@@ -16,12 +16,14 @@ export class HttpRequesterService {
   private headerContentType = 'content-type';
   private headerJson = 'application/json';
   private headerAuthorization = 'Authorization';
-  private serverPath = 'to do';
+  private serverPath = 'http://localhost:3000/';
+  private login = 'login';
+  private register = 'register';
 
   constructor(private httpClient: HttpClient, private blogStoreService: BlogStoreService) { }
 
   public loginUser(loginModel: LoginModel): Observable<LoginUserModel> {
-    return this.httpClient.post<LoginUserModel>(this.serverPath, loginModel, {
+    return this.httpClient.post<LoginUserModel>(`${this.serverPath}${this.login}`, loginModel, {
       headers: new HttpHeaders().set(this.headerContentType, this.headerJson)})
       .pipe(
         tap((loginUserModel: LoginUserModel) => 'to do'),
@@ -29,12 +31,12 @@ export class HttpRequesterService {
       );
   }
 
-  public registerUser(registerModel: RegisterModel): Observable<LoginUserModel> {
-    return this.httpClient.post<LoginUserModel>(this.serverPath, registerModel, {
+  public registerUser(registerModel: RegisterModel): Observable<{successful: boolean, message: string}> {
+    return this.httpClient.post<{successful: boolean, message: string}>(`${this.serverPath}${this.register}`, registerModel, {
       headers: new HttpHeaders().set(this.headerContentType, this.headerJson)})
       .pipe(
-        tap((loginUserModel: LoginUserModel) => 'to do'),
-        catchError(this.handleError<LoginUserModel>('register user'))
+        tap((loginUserModel: {successful: boolean, message: string}) => 'to do'),
+        catchError(this.handleError<{successful: boolean, message: string}>('register user'))
       );
   }
 

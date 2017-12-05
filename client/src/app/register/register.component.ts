@@ -1,19 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import { RegisterModel } from '../models/users/registerModel';
+import { HttpRequesterService } from '../http-requester.service';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-
 export class RegisterComponent implements OnInit {
-  private model = new RegisterModel('', '', '', '');
+  private model: RegisterModel = new RegisterModel('', '', '', '');
   
-  constructor() { }
+  constructor(private httpRequesterService: HttpRequesterService) { }
 
   onSubmit() {
-    // to do
+    this.httpRequesterService.registerUser(this.model)
+      .subscribe((res: {successful: boolean, message: string}) => {
+        if (res) {
+          if (res.successful) {
+            console.log('Success');
+          } else {
+            console.log(res.message);
+          }
+        }
+      });
   }
 
   ngOnInit() {

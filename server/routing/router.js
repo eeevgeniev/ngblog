@@ -19,7 +19,7 @@ module.exports = (app) => {
             'content-type' : 'text/plain'
         });
 
-        res.write('404. File not found');
+        res.write('404. Page not found');
         res.end();
     })
 };
