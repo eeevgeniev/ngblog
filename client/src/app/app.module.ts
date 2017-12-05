@@ -9,13 +9,15 @@ import { BlogRoutingModule } from  './blog-routing/blog-routing.module';
 import { CreateArticleComponent } from './create-article/create-article.component';
 import { BlogStoreService } from './blog-store.service';
 import { HttpRequesterService } from './http-requester.service';
+import { ArticlesComponent } from './articles/articles.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RegisterComponent,
     LoginComponent,
-    CreateArticleComponent
+    CreateArticleComponent,
+    ArticlesComponent
   ],
   imports: [
     BrowserModule,

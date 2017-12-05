@@ -37,7 +37,7 @@ module.exports = {
 
             Article.find(
                 {deleted: false}, 
-                'title, author, created, tags', 
+                'title, text, author, created, tags, images', 
                 {skip: page * limit, take: limit}, 
                 (error, articles) => {
                 if (error) {
@@ -48,7 +48,7 @@ module.exports = {
                 return res.status(200).json({
                     success: true,
                     message: "",
-                    pages: count % limit,
+                    pages: (count % limit) + 1,
                     page: page + 1,
                     articles: articles
                 });
@@ -69,7 +69,7 @@ module.exports = {
     
                 Article.find(
                     {$and: [{author: name}, {deleted: false}]}, 
-                    'title, author, created, tags', 
+                    'title, text, author, created, tags, images', 
                     {skip: page * limit, take: limit}, 
                     (error, articles) => {
                     if (error) {
@@ -80,7 +80,7 @@ module.exports = {
                     return res.status(200).json({
                         success: true,
                         message: "",
-                        pages: count % limit,
+                        pages: (count % limit) + 1,
                         page: page + 1,
                         articles: articles
                     });

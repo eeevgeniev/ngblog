@@ -1,0 +1,17 @@
+<div *ngIf="articlePageViewModel.articles">
+    <section *ngFor="let article of articlePageViewModel.articles">
+        <header>
+          <h3>{{{{article.title}}}}</h3>
+          <p>{{article.text}}</p>
+        </header>
+        <img src={{article.image}} />
+        <footer>
+          <div>{{article.author}}</div>
+          <div>{{article.tags}}</div>
+          <div>{{article.created}}</div>
+        </footer>
+      </section>
+</div>
+<div *ngIf="!articlePageViewModel.articles">
+  <div>No articles.</div>
+</div>

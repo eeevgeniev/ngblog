@@ -9,6 +9,7 @@ import { LoginUserModel } from './models/users/loginUserModel';
 import { RegisterModel } from './models/users/registerModel';
 import { ArticleInputModel } from './models/articles/articleInputModel';
 import { ArticleResponseModel } from './models/articles/articleResponseModel';
+import { ArticlePageViewModel } from './models/articles/articlePageViewModel';
 
 @Injectable()
 export class HttpRequesterService {
@@ -43,6 +44,15 @@ export class HttpRequesterService {
       .pipe(
         tap((articleResponseModel: ArticleResponseModel) => 'to do'),
         catchError(this.handleError<ArticleResponseModel>('Create article.'))
+      );
+  }
+
+  public getArticles(page: number = 0): Observable<ArticlePageViewModel>  {
+    return this.httpClient.get<ArticlePageViewModel>(this.serverPath, {
+      headers: new HttpHeaders().set(this.headerAuthorization, this.blogStoreService.getToken())})
+      .pipe(
+        tap((articlePageViewModel: ArticlePageViewModel) => 'to do'),
+        catchError(this.handleError<ArticlePageViewModel>('register user'))
       );
   }
 
