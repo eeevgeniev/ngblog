@@ -25,7 +25,9 @@ createPagination = (page, count) => {
 
 module.exports = {
     allArticles: (req, res) => {
-        let page = req.params['page'] || 1;
+        let page = req.params['page'] || 1,
+            remainder = 0,
+            pages = 0;
 
         Article.count({deleted: false}, (error, count) => {
             if (error) {
@@ -45,10 +47,17 @@ module.exports = {
                     return;
                 }
 
+                pages = count / limit;
+                remainder = count % limit;
+
+                if (remainder !== 0) {
+                    pages += 1;
+                }
+
                 return res.status(200).json({
                     success: true,
                     message: "",
-                    pages: (count % limit) + 1,
+                    pages: pages,
                     page: page + 1,
                     articles: articles
                 });
@@ -57,7 +66,9 @@ module.exports = {
     },
     myArticles: (req, res) => {
         let name = req.user.username,
-            page = req.params['page'] || 1;
+            page = req.params['page'] || 1,
+            remainder = 0,
+            pages = 0;
 
             Article.count({$and: [{author: name}, {deleted: false}]}, (error, count) => {
                 if (error) {
@@ -76,12 +87,19 @@ module.exports = {
                         createErrorResponse(res, error);
                         return;
                     }
+
+                    pages = count / limit;
+                    remainder = count % limit;
+    
+                    if (remainder !== 0) {
+                        pages += 1;
+                    }
     
                     return res.status(200).json({
                         success: true,
                         message: "",
                         pages: (count % limit) + 1,
-                        page: page + 1,
+                        page: pages,
                         articles: articles
                     });
                 });
@@ -178,24 +196,24 @@ module.exports = {
         let parameters = req.body,
         id = req.params['id'];
 
-    if (parameters.id != id) {
-        createErrorResponse(res, 'Invalid article.');
-        return;
-    }
-
-    Article.findOneAndUpdate({_id: article.id}, 
-        {deleted: true, modified: new Date()}, 
-        (error, resultArticle) => {
-        if (error) {
-            createErrorResponse(res, error);
+        if (parameters.id != id) {
+            createErrorResponse(res, 'Invalid article.');
             return;
         }
 
-        res.status(200).json({
-            success: true,
-            message: "",
-            article: resultArticle
+        Article.findOneAndUpdate({_id: article.id}, 
+            {deleted: true, modified: new Date()}, 
+            (error, resultArticle) => {
+            if (error) {
+                createErrorResponse(res, error);
+                return;
+            }
+
+            res.status(200).json({
+                success: true,
+                message: "",
+                article: resultArticle
+            });
         });
-    });
     }
 };

@@ -7,14 +7,14 @@ import { LoginModel } from '../models/users/loginModel';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  private model = new LoginModel('', '');
+  private model: LoginModel = new LoginModel('', '');
   
   constructor() { }
 
   ngOnInit() {
   }
 
-  onSubmit() {
+  onSubmit(): void {
     // to do
   }
 };

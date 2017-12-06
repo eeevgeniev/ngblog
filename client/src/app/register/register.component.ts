@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RegisterModel } from '../models/users/registerModel';
 import { HttpRequesterService } from '../http-requester.service';
+import { LoginUserModel } from '../models/users/loginUserModel';
 
 @Component({
   selector: 'app-register',
@@ -12,14 +13,14 @@ export class RegisterComponent implements OnInit {
   
   constructor(private httpRequesterService: HttpRequesterService) { }
 
-  onSubmit() {
+  onSubmit(): void {
     this.httpRequesterService.registerUser(this.model)
-      .subscribe((res: {successful: boolean, message: string}) => {
-        if (res) {
-          if (res.successful) {
-            console.log('Success');
+      .subscribe((loginUserModel: LoginUserModel) => {
+        if (loginUserModel) {
+          if (loginUserModel.successful) {
+            console.log(loginUserModel);
           } else {
-            console.log(res.message);
+            console.log(loginUserModel.message);
           }
         }
       });
@@ -27,4 +28,4 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit() {
   }
-}
+};

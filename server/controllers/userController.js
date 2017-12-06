@@ -25,9 +25,21 @@ module.exports = {
                 });
             }
 
-            return res.status(200).json({
-                successful: true
-            });
+            return passport.authenticate('customLogin', (error, token, user) => {
+                if (error) {
+                    return res.status(200).json({
+                        successful: false,
+                        message: error
+                    });
+                }
+
+                return res.status(200).json({
+                    successful: true,
+                    message: "",
+                    token: token,
+                    username: user.username
+                });
+            })(req, res, next);
         })(req, res, next);
     },
     userLogin: (req, res, next) => {
@@ -39,7 +51,7 @@ module.exports = {
         if (!parameters.email || !parameters.password) {
             return res.status(200).json({
                 success: false,
-                message: 'Email, username and password are required.',
+                message: 'Email and password are required.',
               });
         }
 
@@ -53,6 +65,7 @@ module.exports = {
 
             return res.status(200).json({
                 successful: true,
+                message: "",
                 token: token,
                 username: user.username
             });

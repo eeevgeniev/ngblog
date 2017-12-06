@@ -12,7 +12,7 @@ export class BlogStoreService {
     localStorage.setItem(this.token, token);
   }
 
-  public clearStore() {
+  public clearStore(): void {
     localStorage.clear();
   }
 

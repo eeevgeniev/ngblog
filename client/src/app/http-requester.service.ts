@@ -31,12 +31,12 @@ export class HttpRequesterService {
       );
   }
 
-  public registerUser(registerModel: RegisterModel): Observable<{successful: boolean, message: string}> {
-    return this.httpClient.post<{successful: boolean, message: string}>(`${this.serverPath}${this.register}`, registerModel, {
+  public registerUser(registerModel: RegisterModel): Observable<LoginUserModel> {
+    return this.httpClient.post<LoginUserModel>(`${this.serverPath}${this.register}`, registerModel, {
       headers: new HttpHeaders().set(this.headerContentType, this.headerJson)})
       .pipe(
-        tap((loginUserModel: {successful: boolean, message: string}) => 'to do'),
-        catchError(this.handleError<{successful: boolean, message: string}>('register user'))
+        tap((loginUserModel: LoginUserModel) => 'to do'),
+        catchError(this.handleError<LoginUserModel>('register user'))
       );
   }
 

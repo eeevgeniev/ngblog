@@ -7,7 +7,7 @@ import { ArticleInputModel } from '../models/articles/articleInputModel';
   styleUrls: ['./create-article.component.css']
 })
 export class CreateArticleComponent implements OnInit {
-  private model = new ArticleInputModel('', '', []);
+  private model: ArticleInputModel = new ArticleInputModel('', '', []);
   private tags: string[] = ['Test', 'Another'];
   
   constructor() { }
@@ -16,7 +16,7 @@ export class CreateArticleComponent implements OnInit {
     // to do
   }
 
-  onTagClicked(e) {
+  onTagClicked(e): void {
     let value = e.target.value,
       tagIndex = -1;
 
