@@ -1,5 +1,6 @@
-<div *ngIf="articlePageViewModel.articles">
-    <section *ngFor="let article of articlePageViewModel.articles">
+<div *ngIf="articleInfoViewModel">
+  <div>
+    <section *ngFor="let article of articleInfoViewModel">
         <header>
           <h3>{{article.title}}</h3>
           <p>{{article.text}}</p>
@@ -8,10 +9,14 @@
         <footer>
           <div>{{article.author}}</div>
           <div>{{article.tags}}</div>
-          <div>{{article.created}}</div>
+          <div>{{article.created | date:long}}</div>
         </footer>
-      </section>
+    </section>
+  </div>
+<div>
+  <a *ngFor="let currentPage of pages" routerLink="/articles/{{currentPage}}">{{currentPage}}</a>
 </div>
-<div *ngIf="!articlePageViewModel.articles">
+</div>
+<div *ngIf="!articleInfoViewModel">
   <div>No articles.</div>
 </div>

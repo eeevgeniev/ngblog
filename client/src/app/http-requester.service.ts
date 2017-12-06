@@ -17,13 +17,15 @@ export class HttpRequesterService {
   private headerJson = 'application/json';
   private headerAuthorization = 'Authorization';
   private serverPath = 'http://localhost:3000/';
-  private login = 'login';
-  private register = 'register';
+  private loginPath = 'login';
+  private registerPath = 'register';
+  private createArticlePath = 'article';
+  private articlesPath = 'articles';
 
   constructor(private httpClient: HttpClient, private blogStoreService: BlogStoreService) { }
 
   public loginUser(loginModel: LoginModel): Observable<LoginUserModel> {
-    return this.httpClient.post<LoginUserModel>(`${this.serverPath}${this.login}`, loginModel, {
+    return this.httpClient.post<LoginUserModel>(`${this.serverPath}${this.loginPath}`, loginModel, {
       headers: new HttpHeaders().set(this.headerContentType, this.headerJson)})
       .pipe(
         tap((loginUserModel: LoginUserModel) => 'to do'),
@@ -32,7 +34,7 @@ export class HttpRequesterService {
   }
 
   public registerUser(registerModel: RegisterModel): Observable<LoginUserModel> {
-    return this.httpClient.post<LoginUserModel>(`${this.serverPath}${this.register}`, registerModel, {
+    return this.httpClient.post<LoginUserModel>(`${this.serverPath}${this.registerPath}`, registerModel, {
       headers: new HttpHeaders().set(this.headerContentType, this.headerJson)})
       .pipe(
         tap((loginUserModel: LoginUserModel) => 'to do'),
@@ -41,7 +43,7 @@ export class HttpRequesterService {
   }
 
   public createArticle(articleInputModel: ArticleInputModel): Observable<ArticleResponseModel> {
-    return this.httpClient.post<ArticleResponseModel>(this.serverPath, articleInputModel, {
+    return this.httpClient.post<ArticleResponseModel>(`${this.serverPath}${this.createArticlePath}`, articleInputModel, {
       headers: new HttpHeaders().set(this.headerAuthorization, this.blogStoreService.getToken())})
       .pipe(
         tap((articleResponseModel: ArticleResponseModel) => 'to do'),
@@ -49,8 +51,8 @@ export class HttpRequesterService {
       );
   }
 
-  public getArticles(page: number = 0): Observable<ArticlePageViewModel>  {
-    return this.httpClient.get<ArticlePageViewModel>(this.serverPath, {
+  public getArticles(page: number = 1): Observable<ArticlePageViewModel>  {
+    return this.httpClient.get<ArticlePageViewModel>(`${this.serverPath}${this.articlesPath}/${page}`, {
       headers: new HttpHeaders().set(this.headerAuthorization, this.blogStoreService.getToken())})
       .pipe(
         tap((articlePageViewModel: ArticlePageViewModel) => 'to do'),

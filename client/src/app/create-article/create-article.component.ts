@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ArticleInputModel } from '../models/articles/articleInputModel';
+import { HttpRequesterService } from '../http-requester.service';
+import { ArticleResponseModel } from '../models/articles/articleResponseModel';
 
 @Component({
   selector: 'app-create-article',
@@ -10,10 +12,17 @@ export class CreateArticleComponent implements OnInit {
   private model: ArticleInputModel = new ArticleInputModel('', '', []);
   private tags: string[] = ['Test', 'Another'];
   
-  constructor() { }
+  constructor(private httpRequesterService: HttpRequesterService) { }
 
   onSubmit() {
-    // to do
+    this.httpRequesterService.createArticle(this.model)
+      .subscribe((articleResponseModel: ArticleResponseModel) => {
+        if (articleResponseModel.success) {
+          console.log('success');
+        } else {
+          console.log(articleResponseModel.message);
+        }
+      });
   }
 
   onTagClicked(e): void {

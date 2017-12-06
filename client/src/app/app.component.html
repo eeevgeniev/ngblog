@@ -9,6 +9,7 @@
     </nav>
   </div>
   <div *ngIf="blogStoreService.isUserRegistered()">
+      <a routerLink="/">Articles</a>
       <a routerLink="/article">New Article</a>
   </div>
 </div>

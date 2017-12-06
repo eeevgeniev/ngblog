@@ -7,7 +7,7 @@ module.exports = (req, res, next) => {
         return res.status(401).end();
     }
 
-    const token = req.headers.authorization.split(' ')[1];
+    const token = req.headers.authorization;
 
     return jsonwebtoken.verify(token, 'my secret data', (error, decoded) => {
         if (error) {

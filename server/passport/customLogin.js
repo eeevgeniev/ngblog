@@ -32,7 +32,7 @@ module.exports = new PassportLocalStrategy(
 
             const token = jsonwebtoken.sign(payload, 'my secret data');
 
-            return done(null, token, {user: user});
+            return done(null, token, user);
         });
     }
 );

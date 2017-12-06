@@ -38,17 +38,17 @@ module.exports = {
             page = createPagination(page, count);
 
             Article.find(
-                {deleted: false}, 
-                'title, text, author, created, tags, images', 
-                {skip: page * limit, take: limit}, 
+                {deleted: false}, //, 
+                'title text author created tags images',
+                {skip: page * limit, take: limit},
                 (error, articles) => {
                 if (error) {
                     createErrorResponse(res, error);
                     return;
                 }
 
-                pages = count / limit;
-                remainder = count % limit;
+                pages = parseInt(count / limit);
+                remainder = parseInt(count % limit);
 
                 if (remainder !== 0) {
                     pages += 1;
@@ -80,7 +80,7 @@ module.exports = {
     
                 Article.find(
                     {$and: [{author: name}, {deleted: false}]}, 
-                    'title, text, author, created, tags, images', 
+                    'title text author created tags images', 
                     {skip: page * limit, take: limit}, 
                     (error, articles) => {
                     if (error) {
@@ -88,8 +88,8 @@ module.exports = {
                         return;
                     }
 
-                    pages = count / limit;
-                    remainder = count % limit;
+                    pages = parseInt(count / limit);
+                    remainder = parseInt(count % limit);
     
                     if (remainder !== 0) {
                         pages += 1;
@@ -149,7 +149,15 @@ module.exports = {
         });
     },
     articleCreate: (req, res) => {
-        let article = req.body;
+        let article = req.body,
+            now = new Date();
+        
+        article.author = req.user.username;
+        article.created = now;
+        article.modified = now;
+        article.deleted = false;
+
+        console.log(article);
 
         Article.create(article, (error, resultArticle) => {
             if (error) {
