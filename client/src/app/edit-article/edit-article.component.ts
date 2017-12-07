@@ -2,20 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import { ArticleInputModel } from '../models/articles/articleInputModel';
 import { HttpRequesterService } from '../http-requester.service';
 import { ArticleResponseModel } from '../models/articles/articleResponseModel';
+import { ArticleEditModel } from '../models/articles/articleEditModel';
 
 @Component({
-  selector: 'app-create-article',
-  templateUrl: './create-article.component.html',
-  styleUrls: ['./create-article.component.css']
+  selector: 'app-edit-article',
+  templateUrl: './edit-article.component.html',
+  styleUrls: ['./edit-article.component.css']
 })
-export class CreateArticleComponent implements OnInit {
-  private model: ArticleInputModel = new ArticleInputModel('', '', []);
-  private tags: string[] = [];
+export class EditArticleComponent implements OnInit {
+  private model: ArticleEditModel = new ArticleEditModel(-1, '', '', []);
+  private tags: string[] = ['Test', 'Another'];
   
   constructor(private httpRequesterService: HttpRequesterService) { }
 
   onSubmit() {
-    this.httpRequesterService.createArticle(this.model)
+    this.httpRequesterService.editArticle(this.model)
       .subscribe((articleResponseModel: ArticleResponseModel) => {
         if (articleResponseModel.success) {
           console.log('success');
@@ -42,7 +43,8 @@ export class CreateArticleComponent implements OnInit {
       this.model.tags.push(value);
     }
   }
-
+  
   ngOnInit() {
+    
   }
-};
+}

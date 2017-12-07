@@ -173,13 +173,7 @@ module.exports = {
         });
     },
     articleUpdate: (req, res) => {
-        let parameters = req.body,
-            id = req.params['id'];
-
-        if (parameters.id != id) {
-            createErrorResponse(res, 'Invalid article.');
-            return;
-        }
+        let parameters = req.body;
 
         Article.findOneAndUpdate({_id: article.id}, 
             {

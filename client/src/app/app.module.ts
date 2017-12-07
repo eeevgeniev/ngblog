@@ -10,6 +10,8 @@ import { CreateArticleComponent } from './create-article/create-article.componen
 import { BlogStoreService } from './blog-store.service';
 import { HttpRequesterService } from './http-requester.service';
 import { ArticlesComponent } from './articles/articles.component';
+import { MyComponent } from './my/my.component';
+import { EditArticleComponent } from './edit-article/edit-article.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,9 @@ import { ArticlesComponent } from './articles/articles.component';
     RegisterComponent,
     LoginComponent,
     CreateArticleComponent,
-    ArticlesComponent
+    ArticlesComponent,
+    MyComponent,
+    EditArticleComponent
   ],
   imports: [
     BrowserModule,

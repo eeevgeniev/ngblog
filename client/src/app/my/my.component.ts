@@ -5,16 +5,15 @@ import { ArticlePageViewModel } from '../models/articles/articlePageViewModel';
 import { ArticleInfoViewModel } from '../models/articles/articleInfoViewModel';
 
 @Component({
-  selector: 'app-articles',
-  templateUrl: './articles.component.html',
-  styleUrls: ['./articles.component.css']
+  selector: 'app-my',
+  templateUrl: './my.component.html',
+  styleUrls: ['./my.component.css']
 })
-export class ArticlesComponent implements OnInit {
+export class MyComponent implements OnInit {
   private articleInfoViewModel: ArticleInfoViewModel[] = [];
   private page: number = 0;
   private pages: number[] = [];
-  private search: string = '';
-  
+
   constructor(
     private route: ActivatedRoute, 
     private httpRequesterService: HttpRequesterService) { }

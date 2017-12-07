@@ -7,7 +7,7 @@ module.exports = (app) => {
     app.get('/articles/my/:page', authorization, articleController.myArticles),
     app.get('/article/:name', articleController.articleByName),
     app.post('/article', authorization, articleController.articleCreate),
-    app.put('/article/:id', authorization, articleController.articleUpdate),
+    app.put('/article', authorization, articleController.articleUpdate),
     app.delete('/article/:id', authorization, articleController.articleDelete),
     app.post('/login', userController.userLogin),
     app.post('/register', userController.userRegister),

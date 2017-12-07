@@ -10,6 +10,7 @@ import { RegisterModel } from './models/users/registerModel';
 import { ArticleInputModel } from './models/articles/articleInputModel';
 import { ArticleResponseModel } from './models/articles/articleResponseModel';
 import { ArticlePageViewModel } from './models/articles/articlePageViewModel';
+import { ArticleEditModel } from './models/articles/articleEditModel';
 
 @Injectable()
 export class HttpRequesterService {
@@ -19,8 +20,10 @@ export class HttpRequesterService {
   private serverPath = 'http://localhost:3000/';
   private loginPath = 'login';
   private registerPath = 'register';
-  private createArticlePath = 'article';
+  private articlePath = 'article';
   private articlesPath = 'articles';
+  private myPath = 'my';
+
 
   constructor(private httpClient: HttpClient, private blogStoreService: BlogStoreService) { }
 
@@ -43,11 +46,29 @@ export class HttpRequesterService {
   }
 
   public createArticle(articleInputModel: ArticleInputModel): Observable<ArticleResponseModel> {
-    return this.httpClient.post<ArticleResponseModel>(`${this.serverPath}${this.createArticlePath}`, articleInputModel, {
+    return this.httpClient.post<ArticleResponseModel>(`${this.serverPath}${this.articlePath}`, articleInputModel, {
       headers: new HttpHeaders().set(this.headerAuthorization, this.blogStoreService.getToken())})
       .pipe(
         tap((articleResponseModel: ArticleResponseModel) => 'to do'),
         catchError(this.handleError<ArticleResponseModel>('Create article.'))
+      );
+  }
+
+  public editArticle(articleEditModel: ArticleEditModel): Observable<ArticleResponseModel> {
+    return this.httpClient.put<ArticleResponseModel>(`${this.serverPath}${this.articlePath}/${articleEditModel._id}`, articleEditModel, {
+      headers: new HttpHeaders().set(this.headerAuthorization, this.blogStoreService.getToken())})
+      .pipe(
+        tap((articleResponseModel: ArticleResponseModel) => 'to do'),
+        catchError(this.handleError<ArticleResponseModel>('Edit article.'))
+      );
+  }
+
+  public getArticle(name: string): Observable<ArticleResponseModel> {
+    return this.httpClient.get<ArticleResponseModel>(`${this.serverPath}${this.articlePath}/${name}`, {
+      headers: new HttpHeaders().set(this.headerAuthorization, this.blogStoreService.getToken())})
+      .pipe(
+        tap((articleResponseModel: ArticleResponseModel) => 'to do'),
+        catchError(this.handleError<ArticleResponseModel>('Edit article.'))
       );
   }
 
@@ -56,9 +77,18 @@ export class HttpRequesterService {
       headers: new HttpHeaders().set(this.headerAuthorization, this.blogStoreService.getToken())})
       .pipe(
         tap((articlePageViewModel: ArticlePageViewModel) => 'to do'),
-        catchError(this.handleError<ArticlePageViewModel>('register user'))
+        catchError(this.handleError<ArticlePageViewModel>('get articles'))
       );
   }
+
+  public getMyArticles(page: number = 1): Observable<ArticlePageViewModel> {
+    return this.httpClient.get<ArticlePageViewModel>(`${this.serverPath}${this.articlesPath}/${this.myPath}/${page}`, {
+      headers: new HttpHeaders().set(this.headerAuthorization, this.blogStoreService.getToken())})
+      .pipe(
+        tap((articlePageViewModel: ArticlePageViewModel) => 'to do'),
+        catchError(this.handleError<ArticlePageViewModel>('get my articles'))
+      );
+  };
 
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
