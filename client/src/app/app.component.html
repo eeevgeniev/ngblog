@@ -2,6 +2,7 @@
   <h1>
     Welcome to {{ title }}!
   </h1>
+  <base href="/">
   <div *ngIf="!blogStoreService.isUserRegistered()">
     <nav>
       <a routerLink="/register">Register</a>
