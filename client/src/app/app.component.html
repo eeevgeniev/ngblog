@@ -1,19 +1,23 @@
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <div *ngIf="!blogStoreService.isUserRegistered()">
-    <nav>
-      <a routerLink="/register">Register</a>
-      <a routerLink="/login">Login</a>
-    </nav>
-  </div>
-  <div *ngIf="blogStoreService.isUserRegistered()">
-      <a routerLink="/articles/1">Articles</a>
-      <a routerLink="/my/1"></a>
-      <a routerLink="/article">New Article</a>
-  </div>
-</div>
 <div>
-  <router-outlet></router-outlet>
+    <nav class="navbar navbar-default navbar-static-top">
+        <div class="container-fluid">
+            <a routerLink="/articles/1" class="navbar-brand">{{title}}</a>
+            <ul class="nav navbar-nav navbar-left">
+                <li><a *ngIf="username" routerLink="/articles/1">Articles</a></li>
+                <li><a *ngIf="username" routerLink="/my/1">My Articles</a></li>
+                <li><a *ngIf="username" routerLink="/new">New Article</a></li>
+                <li><a *ngIf="username" routerLink="/me">{{username}}</a></li>
+                <li><a *ngIf="username" (click)="onLogout()" class="logout-anchor">Logout</a></li>
+                <li><a *ngIf="!username" routerLink="/register">Register</a></li>
+                <li><a *ngIf="!username" routerLink="/login">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <router-outlet></router-outlet>
+        <hr />
+    </div>
+    <footer class="container">
+       <p>&copy; {{title}}</p>
+    </footer>
 </div>

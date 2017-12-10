@@ -1,0 +1,19 @@
+<section class="blog-form-container jumbotron">
+  <header>
+    <h3>Change password</h3>
+    <h4><span>{{model.username}} ({{model.email}})</span></h4>
+  </header>
+  <form (ngSubmit)="onSubmit()" #passwordForm="ngForm">
+      <div class="form-group">
+          <label for="password">Password</label>
+          <input id="password" class="form-control" name="password" type="password" [(ngModel)]="passwordModel.password" required />
+        </div>
+        <div class="form-group">
+          <label for="confirmpassword">Confirm Password</label>
+          <input id="confirmpassword" class="form-control" name="confirmpassword" type="password" [(ngModel)]="passwordModel.confirmPassword" required />
+        </div>
+        <div class="form-group">
+          <input type="submit" class="btn btn-success" value="Register" [disabled]="!passwordForm.form.valid" />
+        </div>
+  </form>
+</section>

@@ -3,35 +3,30 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms'
 import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
-import { RegisterComponent } from './register/register.component';
-import { LoginComponent } from './login/login.component';
 import { BlogRoutingModule } from  './blog-routing/blog-routing.module';
-import { CreateArticleComponent } from './create-article/create-article.component';
 import { BlogStoreService } from './blog-store.service';
 import { HttpRequesterService } from './http-requester.service';
-import { ArticlesComponent } from './articles/articles.component';
-import { MyComponent } from './my/my.component';
-import { EditArticleComponent } from './edit-article/edit-article.component';
+import { Settings } from './configuration/settings';
+import { ArticleModule } from './article/article-module/article.module';
+import { UserModule } from './user/user/user.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    RegisterComponent,
-    LoginComponent,
-    CreateArticleComponent,
-    ArticlesComponent,
-    MyComponent,
-    EditArticleComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    BlogRoutingModule
+    BlogRoutingModule,
+    ArticleModule,
+    UserModule
   ],
   providers: [
     BlogStoreService, 
-    HttpRequesterService],
+    HttpRequesterService,
+    Settings
+  ],
   bootstrap: [AppComponent]
 })
 

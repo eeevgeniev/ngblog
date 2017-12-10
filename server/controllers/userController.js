@@ -1,6 +1,7 @@
 const customSession = require('../passport/customSession');
 const passport = require('passport');
 const User = require('../models/user');
+const encryption = require('../utilities/encryption');
 
 module.exports = {
     userRegister: (req, res, next) => {
@@ -72,12 +73,62 @@ module.exports = {
         })(req, res, next);
     },
     userGet: (req, res) => {
+        if (!req.user) {
+            return res.status(200).json({
+                success: false,
+                message: "Invalid user.",
+              });
+        }
 
+        return res.status(200).json({
+            success: true,
+            message: "",
+            user: {
+                username: req.user.username,
+                email: req.user.email
+            }
+        });
     },
     userLogout: (req, res) => {
+        customSession.clearUser(req.user._id);
 
+        return res.status(200).json({
+            success: true,
+            message: "",
+          });
     },
     userUpdate: (req, res) => {
+        if (!req.body || !req.body['password'] || !req.body['confirmPassword']) {
+            return res.status(200).json({
+                success: false,
+                message: "Password and confirm password are required.",
+              });
+        }
 
+        User.findById(req.user._id, (error, user) => {
+            if (error) {
+                return res.status(200).json({
+                    success: false,
+                    message: error,
+                  });
+            }
+
+            let newSalt = encryption.generateSalt();
+            let newPassword = encryption.generatePassword(req.body['password'], newSalt);
+
+            User.findByIdAndUpdate(user._id, { password: newPassword, salt: newSalt }, (error,  user) => {
+                if (error) {
+                    return res.status(200).json({
+                        success: false,
+                        message: error,
+                      });
+                }
+
+                return res.status(200).json({
+                    success: true,
+                    message: "",
+                });
+            });
+        });
     }
 };

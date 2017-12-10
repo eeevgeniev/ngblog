@@ -1,6 +1,9 @@
+const fs = require('fs');
+const path = require('path');
 const Article = require('../models/article');
 const Image = require('../models/image');
 const limit = 10;
+const imageDirectory = path.join(__dirname, '../public/images');
 
 createErrorResponse = (res, message) => {
     res.status(200).json({
@@ -39,8 +42,8 @@ module.exports = {
 
             Article.find(
                 {deleted: false}, //, 
-                'title text author created tags images',
-                {skip: page * limit, take: limit},
+                '_id title author created tags',
+                {skip: page * limit, limit: limit},
                 (error, articles) => {
                 if (error) {
                     createErrorResponse(res, error);
@@ -80,8 +83,8 @@ module.exports = {
     
                 Article.find(
                     {$and: [{author: name}, {deleted: false}]}, 
-                    'title text author created tags images', 
-                    {skip: page * limit, take: limit}, 
+                    '_id title author created tags', 
+                    {skip: page * limit, limit: limit}, 
                     (error, articles) => {
                     if (error) {
                         createErrorResponse(res, error);
@@ -98,22 +101,22 @@ module.exports = {
                     return res.status(200).json({
                         success: true,
                         message: "",
-                        pages: (count % limit) + 1,
-                        page: pages,
+                        pages: pages,
+                        page: page + 1,
                         articles: articles
                     });
                 });
             });
     },
-    articleByName: (req, res) => {
-        let name = req.params['name'];
+    articleById: (req, res) => {
+        let id = req.params['id'];
         
-        if (!name) {
-            createErrorResponse(res, 'Please specify article name.')
+        if (!id) {
+            createErrorResponse(res, 'Please specify article id.')
             return;
         }
         
-        Article.findOne({name: name}, (error, article) => {
+        Article.findById(id, (error, article) => {
             if (error) {
                 createErrorResponse(res, error)
                 return;
@@ -124,27 +127,10 @@ module.exports = {
                 return;
             }
 
-            Image.find({_id: {$in: article.images}}, (error, images) => {
-                if (error) {
-                    createErrorResponse(res, error);
-                    return;
-                }
-
-                let resultArticle = {
-                    title: article.title,
-                    text: article.text,
-                    author: req.user.username,
-                    created: article.created,
-                    modified: article.modified,
-                    tags: article.tags,
-                    images: images.map(m => m.path)
-                };
-            });
-
             res.status(200).json({
                 success: true,
                 message: "",
-                article: resultArticle
+                article: article
             });
         });
     },
@@ -156,8 +142,6 @@ module.exports = {
         article.created = now;
         article.modified = now;
         article.deleted = false;
-
-        console.log(article);
 
         Article.create(article, (error, resultArticle) => {
             if (error) {
@@ -175,10 +159,11 @@ module.exports = {
     articleUpdate: (req, res) => {
         let parameters = req.body;
 
-        Article.findOneAndUpdate({_id: article.id}, 
+        Article.findOneAndUpdate({_id: parameters.id}, 
             {
                 title: parameters.title,
                 text: parameters.text,
+                tags: parameters.tags,
                 modified: new Date(),
             }, 
             (error, resultArticle) => {
@@ -195,15 +180,9 @@ module.exports = {
         });
     },
     articleDelete: (req, res) => {
-        let parameters = req.body,
-        id = req.params['id'];
+        let id = req.params['id'];
 
-        if (parameters.id != id) {
-            createErrorResponse(res, 'Invalid article.');
-            return;
-        }
-
-        Article.findOneAndUpdate({_id: article.id}, 
+        Article.findOneAndUpdate({_id: id}, 
             {deleted: true, modified: new Date()}, 
             (error, resultArticle) => {
             if (error) {
@@ -216,6 +195,72 @@ module.exports = {
                 message: "",
                 article: resultArticle
             });
+        });
+    },
+    articleImages: (req, res) => {
+        if (!req.body && !req.body.id) {
+            createErrorResponse(res, 'No article is specified.');
+            return;
+        }
+
+        Article.findById(req.body.id, (error, article) => {
+            if (error) {
+                createErrorResponse(res, error);
+                return;
+            }
+
+            if (article.images.length >= 5 || article.images.length + req.files.length >= 5) {
+                createErrorResponse(res, 'Article can have maximum 5 images.');
+                return;
+            }
+
+            let images = [];
+
+            for (let i = 0, length = req.files.length; i < length; i += 1) {
+                let filePath = path.join(imageDirectory, req.files[i].filename + req.files[i].originalname),
+                    tempPath = path.join(__dirname, '../temp/' + req.files[i].filename);
+                    imagePath = '/images/' + req.files[i].filename + req.files[i].originalname;
+
+                fs.copyFile(tempPath, filePath, (error) => {
+                    if (error) {
+                        createErrorResponse(res, `Error saving file ${req.files[i]}`);
+                        return;
+                    }
+
+                    images.push(imagePath)
+
+                    if (images.length === req.files.length) {
+                        fs.readdir(path.join(__dirname, '../temp/'), (error, files) => {
+                            if (error) {
+                                console.log(error);
+                                return;
+                            }
+
+                            files.forEach(f => {
+                                let fileToDeletePath = path.join(__dirname, '../temp/', f);
+                                fs.unlink(fileToDeletePath, (error) => {
+                                    console.log(error);
+                                });
+                            })
+                        });
+
+                        article.images.forEach(i => images.unshift(i));
+                        
+                        Article.findByIdAndUpdate(req.body.id, {images: images},  (error, article) => {
+                            if (error) {
+                                createErrorResponse(res, error);
+                                return;
+                            }
+
+                            res.status(200).json({
+                                success: true,
+                                message: "",
+                                article: article
+                            });
+                        });
+                    }
+                });
+            }
         });
     }
 };

@@ -1,0 +1,23 @@
+<div *ngIf="articleInfoViewModel">
+  <div class="row">
+    <section *ngFor="let article of articleInfoViewModel" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 card">
+        <header>
+          <h3>{{article.title}}</h3>
+          <div><span *ngFor="let tag of article.tags" class="badge badge-secondary">{{tag}}</span></div>
+        </header>
+        <footer>
+          <div>Author {{article.author}}</div>
+          <div>Created At {{article.created | date:long}}</div>
+          <a routerLink="/article/{{article._id}}" class="btn btn-sm btn-primary">View</a>
+        </footer>
+    </section>
+  </div>
+<div>
+  <ul class="pagination">
+    <li *ngFor="let currentPage of pages" class="page-item"><a routerLink="/articles/{{currentPage}}" class="page-link">{{currentPage}}</a></li>
+  </ul>
+</div>
+</div>
+<div *ngIf="!articleInfoViewModel">
+  <div>No articles.</div>
+</div>

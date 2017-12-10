@@ -1,4 +1,5 @@
 export class ArticleViewModel {
+    public _id: string;
     public title: string;
     public text: string;
     public author: string;

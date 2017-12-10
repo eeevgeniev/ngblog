@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Tags = require('../models/tag');
 
 module.exports = (connectionString) => {
     mongoose.connect(connectionString, { useMongoClient: true });
@@ -10,6 +11,8 @@ module.exports = (connectionString) => {
             console.log(error);
             return;
         }
+
+        Tags.seedTags();
 
         console.log('Database ready.');
     });

@@ -1,0 +1,10 @@
+@import url('https://unpkg.com/bootstrap@3.3.7/dist/css/bootstrap.min.css');
+
+.blog-form-container {
+    margin: 0 auto;
+    width: 45em;
+}
+
+.blog-form-container h3 {
+    text-align: center;
+}

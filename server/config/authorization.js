@@ -1,7 +1,7 @@
 const passportLocalStrategy = require('passport-local').Strategy; 
 const userRepository = require('../models/user');
 
-module.exports = new passportLocalStrategy(
+/*module.exports = new passportLocalStrategy(
     {
         usernameField: 'email',
         passwordField: 'password',
@@ -23,4 +23,4 @@ module.exports = new passportLocalStrategy(
 
             //to do
         })
-})
+})*/
