@@ -1,5 +1,5 @@
 export class LoginUserModel {
-    public successful: boolean;
+    public success: boolean;
     public message: string;
     public token: string;
     public username: string;

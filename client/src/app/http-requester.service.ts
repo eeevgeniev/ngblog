@@ -32,6 +32,7 @@ export class HttpRequesterService {
   private tagPath = 'tags';
   private imagesPath = 'article/images/add';
   private mePath = 'me';
+  private errorConnectionToServer = 'Error connection to server.';
 
   constructor(
     private httpClient: HttpClient, 
@@ -42,8 +43,9 @@ export class HttpRequesterService {
     return this.httpClient.post<LoginUserModel>(`${this.settings.serverAddress}${this.loginPath}`, loginModel, {
       headers: new HttpHeaders().set(this.headerContentType, this.headerJson)})
       .pipe(
-        tap((loginUserModel: LoginUserModel) => 'to do'),
-        catchError(this.handleError<LoginUserModel>('register user'))
+        catchError(this.handleError<LoginUserModel>(
+          this.errorConnectionToServer, 
+          { success: false, message: this.errorConnectionToServer, token: null, username: null}))
       );
   }
 
@@ -51,8 +53,9 @@ export class HttpRequesterService {
     return this.httpClient.post<LoginUserModel>(`${this.settings.serverAddress}${this.registerPath}`, registerModel, {
       headers: new HttpHeaders().set(this.headerContentType, this.headerJson)})
       .pipe(
-        tap((loginUserModel: LoginUserModel) => 'to do'),
-        catchError(this.handleError<LoginUserModel>('register user'))
+        catchError(this.handleError<LoginUserModel>(
+          this.errorConnectionToServer, 
+          { success: false, message: this.errorConnectionToServer, token: null, username: null}))
       );
   }
 
@@ -60,8 +63,8 @@ export class HttpRequesterService {
     return this.httpClient.post<ArticleResponseModel>(`${this.settings.serverAddress}${this.articlePath}`, articleInputModel, {
       headers: new HttpHeaders().set(this.headerAuthorization, this.blogStoreService.getToken())})
       .pipe(
-        tap((articleResponseModel: ArticleResponseModel) => 'to do'),
-        catchError(this.handleError<ArticleResponseModel>('Create article.'))
+        catchError(this.handleError<ArticleResponseModel>(this.errorConnectionToServer,
+        { success: false, message: this.errorConnectionToServer, article: null}))
       );
   }
 
@@ -69,8 +72,8 @@ export class HttpRequesterService {
     return this.httpClient.put<ArticleResponseModel>(`${this.settings.serverAddress}${this.articlePath}`, articleEditModel, {
       headers: new HttpHeaders().set(this.headerAuthorization, this.blogStoreService.getToken())})
       .pipe(
-        tap((articleResponseModel: ArticleResponseModel) => 'to do'),
-        catchError(this.handleError<ArticleResponseModel>('Edit article.'))
+        catchError(this.handleError<ArticleResponseModel>(this.errorConnectionToServer,
+          { success: false, message: this.errorConnectionToServer, article: null}))
       );
   }
 
@@ -78,8 +81,8 @@ export class HttpRequesterService {
     return this.httpClient.get<ArticleResponseModel>(`${this.settings.serverAddress}${this.articlePath}/${id}`, {
       headers: new HttpHeaders().set(this.headerAuthorization, this.blogStoreService.getToken())})
       .pipe(
-        tap((articleResponseModel: ArticleResponseModel) => 'to do'),
-        catchError(this.handleError<ArticleResponseModel>('Edit article.'))
+        catchError(this.handleError<ArticleResponseModel>(this.errorConnectionToServer,
+          { success: false, message: this.errorConnectionToServer, article: null}))
       );
   }
 
@@ -87,8 +90,8 @@ export class HttpRequesterService {
     return this.httpClient.get<ArticlePageViewModel>(`${this.settings.serverAddress}${this.articlesPath}/${page}`, {
       headers: new HttpHeaders().set(this.headerAuthorization, this.blogStoreService.getToken())})
       .pipe(
-        tap((articlePageViewModel: ArticlePageViewModel) => 'to do'),
-        catchError(this.handleError<ArticlePageViewModel>('get articles'))
+        catchError(this.handleError<ArticlePageViewModel>(this.errorConnectionToServer,
+        { success: false, message: this.errorConnectionToServer, articles: null, page: -1, pages: -1 }))
       );
   }
 
@@ -96,26 +99,26 @@ export class HttpRequesterService {
     return this.httpClient.get<ArticlePageViewModel>(`${this.settings.serverAddress}${this.articlesPath}/${this.myPath}/${page}`, {
       headers: new HttpHeaders().set(this.headerAuthorization, this.blogStoreService.getToken())})
       .pipe(
-        tap((articlePageViewModel: ArticlePageViewModel) => 'to do'),
-        catchError(this.handleError<ArticlePageViewModel>('get my articles'))
+        catchError(this.handleError<ArticlePageViewModel>(this.errorConnectionToServer,
+        { success: false, message: this.errorConnectionToServer, articles: null, page: -1, pages: -1 }))
       );
-  };
+  }
 
   public getTags(): Observable<TagResponseModel> {
     return this.httpClient.get<TagResponseModel>(`${this.settings.serverAddress}${this.tagPath}`, {
       headers: new HttpHeaders().set(this.headerAuthorization, this.blogStoreService.getToken())})
       .pipe(
-        tap((tagResponseModel: TagResponseModel) => 'to do'),
-        catchError(this.handleError<TagResponseModel>('get my articles'))
-      )
+        catchError(this.handleError<TagResponseModel>(this.errorConnectionToServer,
+        { success: false, message: this.errorConnectionToServer, tags: null }))
+      );
   }
 
   public deleteArticle(id: string): Observable<ArticleResponseModel> {
     return this.httpClient.delete<ArticleResponseModel>(`${this.settings.serverAddress}${this.articlePath}/${id}`, {
       headers: new HttpHeaders().set(this.headerAuthorization, this.blogStoreService.getToken())})
       .pipe(
-        tap((articleResponseModel: ArticleResponseModel) => 'to do'),
-        catchError(this.handleError<ArticleResponseModel>('Delete article.'))
+        catchError(this.handleError<ArticleResponseModel>(this.errorConnectionToServer, 
+        { success: false, message: this.errorConnectionToServer, article: null}))
       );
   }
 
@@ -124,8 +127,8 @@ export class HttpRequesterService {
       headers: new HttpHeaders().set(this.headerAuthorization, this.blogStoreService.getToken())
     })
     .pipe(
-      tap((responseModel: ResponseModel) => 'to do'),
-      catchError(this.handleError<ResponseModel>('Delete article.'))
+      catchError(this.handleError<ResponseModel>(this.errorConnectionToServer, 
+      { success: false, message: this.errorConnectionToServer }))
     );
   }
 
@@ -133,8 +136,8 @@ export class HttpRequesterService {
     return this.httpClient.get<UserResponseModel>(`${this.settings.serverAddress}${this.mePath}`, {
       headers: new HttpHeaders().set(this.headerAuthorization, this.blogStoreService.getToken())})
       .pipe(
-        tap((userResponseModel: UserResponseModel) => 'to do'),
-        catchError(this.handleError<UserResponseModel>('Delete article.'))
+        catchError(this.handleError<UserResponseModel>(this.errorConnectionToServer,
+        { success: false, message: this.errorConnectionToServer, user: null }))
       );
   }
 
@@ -142,22 +145,23 @@ export class HttpRequesterService {
     return this.httpClient.put<ResponseModel>(`${this.settings.serverAddress}${this.mePath}`, passwordModel, {
       headers: new HttpHeaders().set(this.headerAuthorization, this.blogStoreService.getToken())})
       .pipe(
-        tap((responseModel: ResponseModel) => 'to do'),
-        catchError(this.handleError<ResponseModel>('Delete article.'))
-      )
+        catchError(this.handleError<ResponseModel>(this.errorConnectionToServer, 
+        { success: false, message: this.errorConnectionToServer }))
+      );
   }
 
   public logout(): Observable<ResponseModel> {
     return this.httpClient.post<ResponseModel>(`${this.settings.serverAddress}${this.logoutPath}`, null, {
       headers: new HttpHeaders().set(this.headerAuthorization, this.blogStoreService.getToken())})
       .pipe(
-        tap((responseModel: ResponseModel) => 'to do'),
-        catchError(this.handleError<ResponseModel>('Delete article.'))
-      )
+        catchError(this.handleError<ResponseModel>(this.errorConnectionToServer,
+        { success: false, message: this.errorConnectionToServer }))
+      );
   }
 
-  private handleError<T> (operation = 'operation', result?: T) {
+  private handleError<T> (message = this.errorConnectionToServer, result?: T) {
     return (error: any): Observable<T> => {
+      console.log(message);  
       return of(result as T);
     };
   }

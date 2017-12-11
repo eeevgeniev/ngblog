@@ -1,4 +1,4 @@
 export class ResponseModel {
-    public success: string;
+    public success: boolean;
     public message: string;
 }

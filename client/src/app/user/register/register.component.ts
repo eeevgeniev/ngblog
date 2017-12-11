@@ -20,7 +20,7 @@ export class RegisterComponent implements OnInit {
     this.httpRequesterService.registerUser(this.model)
       .subscribe((loginUserModel: LoginUserModel) => {
         if (loginUserModel) {
-          if (loginUserModel.successful) {
+          if (loginUserModel.success) {
             this.blogStoreService.registerUser(loginUserModel.username, loginUserModel.token);
           } else {
             console.log(loginUserModel.message);

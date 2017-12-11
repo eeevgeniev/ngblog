@@ -1,7 +1,7 @@
 import { Tag } from './tag';
 
 export class TagResponseModel {
-    public success: string;
+    public success: boolean;
     public message: string;
     public tags: Tag[];
 }

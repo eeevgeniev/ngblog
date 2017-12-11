@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
   onSubmit(): void {
     this.httpRequesterService.loginUser(this.model)
       .subscribe((loginUserModel: LoginUserModel) => {
-        if (loginUserModel.successful) {
+        if (loginUserModel.success) {
           this.blogStoreService.registerUser(loginUserModel.username, loginUserModel.token);
           window.location.href = '/articles/1';
         } else {

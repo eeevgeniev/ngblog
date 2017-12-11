@@ -21,7 +21,7 @@ module.exports = {
         return passport.authenticate('customRegister', (error) => {
             if (error) {
                 return res.status(200).json({
-                    successful: false,
+                    success: false,
                     message: error
                 });
             }
@@ -29,13 +29,13 @@ module.exports = {
             return passport.authenticate('customLogin', (error, token, user) => {
                 if (error) {
                     return res.status(200).json({
-                        successful: false,
+                        success: false,
                         message: error
                     });
                 }
 
                 return res.status(200).json({
-                    successful: true,
+                    success: true,
                     message: "",
                     token: token,
                     username: user.username
@@ -59,13 +59,13 @@ module.exports = {
         return passport.authenticate('customLogin', (error, token, user) => {
             if (error) {
                 return res.status(200).json({
-                    successful: false,
+                    success: false,
                     message: error
                 });
             }
 
             return res.status(200).json({
-                successful: true,
+                success: true,
                 message: "",
                 token: token,
                 username: user.username
