@@ -3,15 +3,24 @@
   <form (ngSubmit)="onSubmit()" #articleForm="ngForm">
     <div class="form-group">
       <label for="title">Title</label>
-      <input id="title" class="form-control" name="title" type="text" [(ngModel)]="model.title" required />
+      <input #title="ngModel" id="title" class="form-control" name="title" type="text" [(ngModel)]="model.title" required minlength="5" maxlength="50" />
+      <div *ngIf="title.invalid && (title.dirty || title.touched)" class="alert alert-danger">
+        <div *ngIf="title.errors.required">Title is required.</div>
+        <div *ngIf="title.errors.minlength">Title mist be at least 5 characters.</div>
+        <div *ngIf="title.errors.maxlength">Title mist be at least 50 characters.</div>
+      </div>
     </div>
     <div class="form-group">
       <label for="text">Description</label>
-      <textarea id="text" name="text" class="form-control" name="text" [(ngModel)]="model.text" required></textarea>
+      <textarea #description="ngModel" id="text" name="text" class="form-control" name="text" [(ngModel)]="model.text" required minlength="20"></textarea>
+      <div *ngIf="description.invalid && (description.dirty || description.touched)" class="alert alert-danger">
+        <div *ngIf="description.errors.required">Description is required.</div>
+        <div *ngIf="description.errors.minlength">Description mist be at least 20 characters.</div>
+      </div>
     </div>
     <div class="form-group" *ngFor="let tag of tags">
-      <label for="tags">{{tag.name}}</label>
-      <input type="checkbox" id="tags" name="tags" value={{tag.name}} (click)="onTagClicked($event)" [checked]="isChecked(tag.name)" />
+      <label for={{tag.name}}>{{tag.name}}</label>
+      <input type="checkbox" id={{tag.name}} name="tags" value={{tag.name}} (click)="onTagClicked($event)" [checked]="isChecked(tag.name)" />
     </div>
     <input type="submit" class="btn btn-success" value="Update" [disabled]="!articleForm.form.valid" />
     <button type="button" class="btn btn-danger" (click)="onDelete()" value="Delete">Delete</button>

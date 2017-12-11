@@ -3,22 +3,38 @@
   <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
     <div class="form-group">
       <label for="username">Username</label>
-      <input id="username" class="form-control" name="username" type="text" [(ngModel)]="model.username" required />
+      <input #username="ngModel" id="username" class="form-control" 
+      name="username" type="text" [(ngModel)]="model.username" required minlength="4" />
+      <div *ngIf="username.invalid && (username.dirty || username.touched)" class="alert alert-danger">
+        <div *ngIf="username.errors.required">Username is required.</div>
+        <div *ngIf="username.errors.minlength">Username mist be at least 4 characters.</div>
+      </div>
     </div>
     <div class="form-group">
       <label for="email">Email</label>
-      <input id="email" class="form-control" name="email" type="email" [(ngModel)]="model.email" required />
+      <input #email="ngModel" id="email" class="form-control" name="email" type="email" [(ngModel)]="model.email" required 
+      pattern='^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$' />
+      <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">Email is invalid.</div>
     </div>
     <div class="form-group">
       <label for="password">Password</label>
-      <input id="password" class="form-control" name="password" type="password" [(ngModel)]="model.password" required />
+      <input #password="ngModel" id="password" class="form-control" name="password" type="password" [(ngModel)]="model.password" required minlength="4" />
+      <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
+        <div *ngIf="password.errors.required">Password is required.</div>
+        <div *ngIf="password.errors.minlength">Password must be at least 4 characters.</div>
+      </div>
     </div>
     <div class="form-group">
       <label for="confirmpassword">Confirm Password</label>
-      <input id="confirmpassword" class="form-control" name="confirmpassword" type="password" [(ngModel)]="model.confirmPassword" required />
+      <input #confirmPassword="ngModel" id="confirmpassword" class="form-control" name="confirmpassword" type="password" [(ngModel)]="model.confirmPassword" required minlength="4" />
+      <div *ngIf="(confirmPassword.invalid || password.value !== confirmPassword.value) && (confirmPassword.dirty || confirmPassword.touched)" class="alert alert-danger">
+        <div *ngIf="confirmPassword?.errors?.required">Password is required.</div>
+        <div *ngIf="confirmPassword?.errors?.minlength">Password must be at least 4 characters.</div>
+        <div *ngIf="password.value !== confirmPassword.value">Confirm password does not match password.</div>
+      </div>
     </div>
     <div class="form-group">
-      <input type="submit" class="btn btn-success" value="Register" [disabled]="!registerForm.form.valid" />
+      <input type="submit" class="btn btn-success" value="Register" [disabled]="!registerForm.form.valid || password.value !== confirmPassword.value" />
     </div>
   </form>
 </div>
