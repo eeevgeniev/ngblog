@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpRequesterService } from '../../http-requester.service';
+import { HttpRequesterService } from '../../services/requester/http-requester.service';
 import { ActivatedRoute } from '@angular/router';
 import { ArticleViewModel } from '../../models/articles/articleViewModel';
 import { ArticleResponseModel } from '../../models/articles/articleResponseModel';
-import { MessageService } from '../../services/message.service';
+import { MessageService } from '../../services/messages/message.service';
 
 @Component({
   selector: 'app-view-article',

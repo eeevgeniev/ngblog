@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpRequesterService } from '../../http-requester.service';
+import { HttpRequesterService } from '../../services/requester/http-requester.service';
 import { ArticlePageViewModel } from '../../models/articles/articlePageViewModel';
 import { ArticleInfoViewModel } from '../../models/articles/articleInfoViewModel';
-import { MessageService } from '../../services/message.service';
+import { MessageService } from '../../services/messages/message.service';
 
 @Component({
   selector: 'app-articles',

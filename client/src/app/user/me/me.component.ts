@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpRequesterService } from '../../http-requester.service';
+import { HttpRequesterService } from '../../services/requester/http-requester.service';
 import { User } from '../../models/users/user';
 import { UserResponseModel } from '../../models/users/userResponseModel';
 import { PasswordModel } from '../../models/users/passwordModel';
 import { ResponseModel } from '../../models/responses/responseModel';
-import { MessageService } from '../../services/message.service';
+import { MessageService } from '../../services/messages/message.service';
 
 @Component({
   selector: 'app-me',

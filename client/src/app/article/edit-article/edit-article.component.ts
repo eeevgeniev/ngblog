@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
-import { HttpRequesterService } from '../../http-requester.service';
+import { HttpRequesterService } from '../../services/requester/http-requester.service';
 import { ArticleInputModel } from '../../models/articles/articleInputModel';
 import { ArticleResponseModel } from '../../models/articles/articleResponseModel';
 import { ArticleEditModel } from '../../models/articles/articleEditModel';
 import { TagResponseModel } from '../../models/tags/tagResponseModel';
 import { Tag } from '../../models/tags/tag';
-import { MessageService } from '../../services/message.service';
+import { MessageService } from '../../services/messages/message.service';
 import { ResponseModel } from '../../models/responses/responseModel';
 
 @Component({

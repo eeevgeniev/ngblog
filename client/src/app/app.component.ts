@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { BlogStoreService } from './blog-store.service';
-import { HttpRequesterService } from './http-requester.service';
+import { BlogStoreService } from './services/store/blog-store.service';
+import { HttpRequesterService } from './services/requester/http-requester.service';
 import { ResponseModel } from './models/responses/responseModel';
 
 @Component({

@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class BlogStoreService {
+  public userName: string = null;
+  
   private user: string = 'user';
   private token: string = 'token';
 
@@ -10,10 +12,12 @@ export class BlogStoreService {
   public registerUser(username: string, token: string) {
     localStorage.setItem(this.user, username);
     localStorage.setItem(this.token, token);
+    this.userName = username;
   }
 
   public clearStore(): void {
     localStorage.clear();
+    this.userName = null;
   }
 
   public isUserRegistered(): boolean { 

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpRequesterService } from '../../http-requester.service';
-import { BlogStoreService  } from '../../blog-store.service';
+import { HttpRequesterService } from '../../services/requester/http-requester.service';
+import { BlogStoreService  } from '../../services/store/blog-store.service';
 import { LoginModel } from '../../models/users/loginModel';
 import { LoginUserModel } from '../../models/users/loginUserModel';
-import { MessageService } from '../../services/message.service';
+import { MessageService } from '../../services/messages/message.service';
 
 @Component({
   selector: 'app-login',

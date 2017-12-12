@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { RegisterModel } from '../../models/users/registerModel';
-import { HttpRequesterService } from '../../http-requester.service';
+import { HttpRequesterService } from '../../services/requester/http-requester.service';
 import { LoginUserModel } from '../../models/users/loginUserModel';
-import { BlogStoreService } from '../../blog-store.service';
-import { MessageService } from '../../services/message.service';
+import { BlogStoreService } from '../../services/store/blog-store.service';
+import { MessageService } from '../../services/messages/message.service';
 
 @Component({
   selector: 'app-register',

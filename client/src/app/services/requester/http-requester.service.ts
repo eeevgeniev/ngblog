@@ -3,20 +3,20 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
-import { BlogStoreService } from './blog-store.service';
-import { LoginModel } from './models/users/loginModel';
-import { LoginUserModel } from './models/users/loginUserModel';
-import { RegisterModel } from './models/users/registerModel';
-import { ArticleInputModel } from './models/articles/articleInputModel';
-import { ArticleResponseModel } from './models/articles/articleResponseModel';
-import { ArticlePageViewModel } from './models/articles/articlePageViewModel';
-import { ArticleEditModel } from './models/articles/articleEditModel';
-import { TagResponseModel } from './models/tags/tagResponseModel';
-import { Settings } from './configuration/settings';
-import { UserResponseModel } from './models/users/userResponseModel';
-import { User } from './models/users/user';
-import { ResponseModel } from './models/responses/responseModel';
-import { PasswordModel } from './models/users/passwordModel';
+import { BlogStoreService } from '../store/blog-store.service';
+import { LoginModel } from '../../models/users/loginModel';
+import { LoginUserModel } from '../../models/users/loginUserModel';
+import { RegisterModel } from '../../models/users/registerModel';
+import { ArticleInputModel } from '../../models/articles/articleInputModel';
+import { ArticleResponseModel } from '../../models/articles/articleResponseModel';
+import { ArticlePageViewModel } from '../../models/articles/articlePageViewModel';
+import { ArticleEditModel } from '../../models/articles/articleEditModel';
+import { TagResponseModel } from '../../models/tags/tagResponseModel';
+import { Settings } from '../../configuration/settings';
+import { UserResponseModel } from '../../models/users/userResponseModel';
+import { User } from '../../models/users/user';
+import { ResponseModel } from '../../models/responses/responseModel';
+import { PasswordModel } from '../../models/users/passwordModel';
 
 @Injectable()
 export class HttpRequesterService {

@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuardianService } from '../guards/auth-guardian.service';
+import { NoAuthGuardianService } from '../guards/noauth-guardian.service';
 import { LoginComponent } from '../user/login/login.component';
 import { RegisterComponent } from '../user/register/register.component';
 import { CreateArticleComponent } from '../article/create-article/create-article.component';
@@ -10,15 +12,15 @@ import { MyComponent } from '../article/my/my.component';
 import { EditArticleComponent } from '../article/edit-article/edit-article.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'articles/1', pathMatch: 'full' },
-  { path: 'register', component: RegisterComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'new', component: CreateArticleComponent },
-  { path: 'articles/:page', component: ArticlesComponent },
-  { path: 'my/:page', component: MyComponent },
-  { path: 'edit/:id', component: EditArticleComponent },
-  { path: 'article/:id', component: ViewArticleComponent },
-  { path: 'me', component: MeComponent }
+  { path: '', redirectTo: 'articles/1', pathMatch: 'full', canActivate: [AuthGuardianService] },
+  { path: 'register', component: RegisterComponent, canActivate: [NoAuthGuardianService] },
+  { path: 'login', component: LoginComponent, canActivate: [NoAuthGuardianService] },
+  { path: 'new', component: CreateArticleComponent, canActivate: [AuthGuardianService] },
+  { path: 'articles/:page', component: ArticlesComponent, canActivate: [AuthGuardianService] },
+  { path: 'my/:page', component: MyComponent, canActivate: [AuthGuardianService] },
+  { path: 'edit/:id', component: EditArticleComponent, canActivate: [AuthGuardianService] },
+  { path: 'article/:id', component: ViewArticleComponent, canActivate: [AuthGuardianService] },
+  { path: 'me', component: MeComponent, canActivate: [AuthGuardianService] }
 ];
 
 @NgModule({
