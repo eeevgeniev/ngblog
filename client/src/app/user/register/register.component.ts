@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { RegisterModel } from '../../models/users/registerModel';
 import { HttpRequesterService } from '../../http-requester.service';
 import { LoginUserModel } from '../../models/users/loginUserModel';
-import { BlogStoreService  } from '../../blog-store.service';
+import { BlogStoreService } from '../../blog-store.service';
+import { MessageService } from '../../services/message.service';
 
 @Component({
   selector: 'app-register',
@@ -14,17 +15,16 @@ export class RegisterComponent implements OnInit {
   
   constructor(
     private httpRequesterService: HttpRequesterService, 
-    private blogStoreService: BlogStoreService) { }
+    private blogStoreService: BlogStoreService,
+    private messageService: MessageService) { }
 
   onSubmit(): void {
     this.httpRequesterService.registerUser(this.model)
       .subscribe((loginUserModel: LoginUserModel) => {
-        if (loginUserModel) {
-          if (loginUserModel.success) {
-            this.blogStoreService.registerUser(loginUserModel.username, loginUserModel.token);
-          } else {
-            console.log(loginUserModel.message);
-          }
+        if (loginUserModel.success === true) {
+          this.blogStoreService.registerUser(loginUserModel.username, loginUserModel.token);
+        } else {
+          this.messageService.add(loginUserModel.message);
         }
       });
   }

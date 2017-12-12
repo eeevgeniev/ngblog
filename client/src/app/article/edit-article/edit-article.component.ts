@@ -7,6 +7,8 @@ import { ArticleResponseModel } from '../../models/articles/articleResponseModel
 import { ArticleEditModel } from '../../models/articles/articleEditModel';
 import { TagResponseModel } from '../../models/tags/tagResponseModel';
 import { Tag } from '../../models/tags/tag';
+import { MessageService } from '../../services/message.service';
+import { ResponseModel } from '../../models/responses/responseModel';
 
 @Component({
   selector: 'app-edit-article',
@@ -22,15 +24,16 @@ export class EditArticleComponent implements OnInit {
   
   constructor(
     private httpRequesterService: HttpRequesterService,
-    private activateRoute: ActivatedRoute) { }
+    private activateRoute: ActivatedRoute,
+    private messageService: MessageService) { }
 
   onSubmit() {
     this.httpRequesterService.editArticle(this.model)
       .subscribe((articleResponseModel: ArticleResponseModel) => {
         if (articleResponseModel.success) {
-          console.log('success');
+          this.messageService.add('Article was edited.');
         } else {
-          console.log(articleResponseModel.message);
+          this.messageService.add(articleResponseModel.message);
         }
       });
   }
@@ -38,8 +41,10 @@ export class EditArticleComponent implements OnInit {
   onImagesSubmit(event) {
     var form = new FormData(event.target as HTMLFormElement);
     this.httpRequesterService.uploadImages(this.model._id, form)
-      .subscribe(() => {
-
+      .subscribe((responseModel: ResponseModel) => {
+        if (responseModel.success === true) {
+          this.messageService.add('Image/images was/were uploaded.');
+        }
       });
   }
 
@@ -47,12 +52,10 @@ export class EditArticleComponent implements OnInit {
     this.httpRequesterService.deleteArticle(this.model._id)
       .subscribe(() => (articleResponseModel: ArticleResponseModel) => {
         if (articleResponseModel.success) {
-          this.model._id = articleResponseModel.article._id;
-          this.model.title = articleResponseModel.article.title;
-          this.model.text = articleResponseModel.article.text;
-          this.model.tags = articleResponseModel.article.tags;
+          this.model = articleResponseModel.article;
+          this.messageService.add('Article was deleted.');
         } else {
-          console.log(articleResponseModel.message);
+          this.messageService.add(articleResponseModel.message);
         }
       });
   }
@@ -94,7 +97,7 @@ export class EditArticleComponent implements OnInit {
 
     this.httpRequesterService.getArticle(this.id)
       .subscribe((articleResponseModel: ArticleResponseModel) => {
-        if (articleResponseModel.success) {
+        if (articleResponseModel.success === true) {
           this.model = articleResponseModel.article;
           
           if (this.model.images.length < 5) {
@@ -105,7 +108,7 @@ export class EditArticleComponent implements OnInit {
 
           this.canAddImages = (this.model.images.length < 5);
         } else {
-          console.log(articleResponseModel.message);
+          this.messageService.add(articleResponseModel.message);
         }
       });
 

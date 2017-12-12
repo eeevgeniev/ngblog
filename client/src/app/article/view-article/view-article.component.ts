@@ -3,6 +3,7 @@ import { HttpRequesterService } from '../../http-requester.service';
 import { ActivatedRoute } from '@angular/router';
 import { ArticleViewModel } from '../../models/articles/articleViewModel';
 import { ArticleResponseModel } from '../../models/articles/articleResponseModel';
+import { MessageService } from '../../services/message.service';
 
 @Component({
   selector: 'app-view-article',
@@ -15,7 +16,8 @@ export class ViewArticleComponent implements OnInit {
   
   constructor(
     private httpRequestService: HttpRequesterService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private messageService: MessageService) { }
 
   ngOnInit() {
     if (this.route.snapshot.paramMap.get('id')) {
@@ -30,9 +32,8 @@ export class ViewArticleComponent implements OnInit {
       .subscribe((articleResponseModel: ArticleResponseModel) => {
         if (articleResponseModel.success) {
           this.model = articleResponseModel.article;
-          console.log(this.model);
         } else {
-          console.log(articleResponseModel.message);
+          this.messageService.add(articleResponseModel.message);
         }
       });
   }

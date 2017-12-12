@@ -5,6 +5,7 @@ import { ArticleInputModel } from '../../models/articles/articleInputModel';
 import { ArticleResponseModel } from '../../models/articles/articleResponseModel';
 import { TagResponseModel } from '../../models/tags/tagResponseModel';
 import { Tag } from '../../models/tags/tag';
+import { MessageService } from '../../services/message.service';
 
 @Component({
   selector: 'app-create-article',
@@ -17,15 +18,16 @@ export class CreateArticleComponent implements OnInit {
   
   constructor(
     private httpRequesterService: HttpRequesterService, 
-    private route: Router) { }
+    private route: Router,
+    private messageService: MessageService) { }
 
   onSubmit() {
     this.httpRequesterService.createArticle(this.model)
       .subscribe((articleResponseModel: ArticleResponseModel) => {
-        if (articleResponseModel.success) {
+        if (articleResponseModel.success === true) {
           this.route.navigate([`/edit/${articleResponseModel.article._id}`]);
         } else {
-          console.log(articleResponseModel.message);
+          this.messageService.add(articleResponseModel.message);
         }
       });
   }
@@ -51,10 +53,10 @@ export class CreateArticleComponent implements OnInit {
   ngOnInit() {
     this.httpRequesterService.getTags()
       .subscribe((tagResponseModel: TagResponseModel) => {
-        if (tagResponseModel.success) {
+        if (tagResponseModel.success === true) {
           this.tags = tagResponseModel.tags;
         } else {
-          console.log(tagResponseModel.message);
+          this.messageService.add(tagResponseModel.message);
         }
       });
   }

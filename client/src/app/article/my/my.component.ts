@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpRequesterService } from '../../http-requester.service';
 import { ArticlePageViewModel } from '../../models/articles/articlePageViewModel';
 import { ArticleInfoViewModel } from '../../models/articles/articleInfoViewModel';
+import { MessageService } from '../../services/message.service';
 
 @Component({
   selector: 'app-my',
@@ -16,7 +17,8 @@ export class MyComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute, 
-    private httpRequesterService: HttpRequesterService) { }
+    private httpRequesterService: HttpRequesterService,
+    private messageService: MessageService) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -30,10 +32,7 @@ export class MyComponent implements OnInit {
   reloadPage() {
     this.httpRequesterService.getMyArticles(this.page)
     .subscribe((articlePageViewModel: ArticlePageViewModel) => {
-      if (!articlePageViewModel) {
-        return;
-      }
-      if (articlePageViewModel.success) {
+      if (articlePageViewModel.success === true) {
         this.articleInfoViewModel = articlePageViewModel.articles;
         this.pages = [];
         this.page = articlePageViewModel.page;
@@ -41,7 +40,7 @@ export class MyComponent implements OnInit {
           this.pages.push(i);
         }
       }  else {
-        console.log(articlePageViewModel.message);
+        this.messageService.add(articlePageViewModel.message);
       }
     });
   };

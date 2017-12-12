@@ -9,10 +9,13 @@ import { HttpRequesterService } from './http-requester.service';
 import { Settings } from './configuration/settings';
 import { ArticleModule } from './article/article-module/article.module';
 import { UserModule } from './user/user/user.module';
+import { MessageComponent } from './messages/message/message.component';
+import { MessageService } from './services/message.service';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    MessageComponent
   ],
   imports: [
     BrowserModule,
@@ -25,7 +28,8 @@ import { UserModule } from './user/user/user.module';
   providers: [
     BlogStoreService, 
     HttpRequesterService,
-    Settings
+    Settings,
+    MessageService
   ],
   bootstrap: [AppComponent]
 })

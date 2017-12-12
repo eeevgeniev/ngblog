@@ -161,7 +161,7 @@ export class HttpRequesterService {
 
   private handleError<T> (message = this.errorConnectionToServer, result?: T) {
     return (error: any): Observable<T> => {
-      console.log(message);  
+      console.log(message);
       return of(result as T);
     };
   }
