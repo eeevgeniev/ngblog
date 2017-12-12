@@ -1,19 +1,23 @@
 <article *ngIf="model">
-  <header>
-    <h1>{{model.title}}</h1>
-    <div>
-      <span *ngFor="let tag of model.tags" class="badge badge-secondary">{{tag}}</span>
-    </div>
-  </header>
-  <section>
-    <img *ngFor="let image of model.images" src="http://localhost:3000/{{image}}" />
+  <section class="blog-img-container" *ngIf="image">
+      <button *ngIf="model.images.length > 1" class="btn btn-default btn-large left-btn" type="button" (click)="onLeftBtnClick()">&#10094;</button>
+      <button *ngIf="model.images.length > 1" class="btn btn-default btn-large right-btn" type="button" (click)="onRightBtnClick()">&#10095;</button>
+    <img src="http://localhost:3000/{{image}}" class="blog-img" />
   </section>
-  <section><p>{{model.text}}</p></section>
-  <footer>
-    <div>{{model.author}}</div>
-    <div>{{model.created | date:long}}</div>
-    <div>{{model.modified | date:long}}</div>
-  </footer>
+  <section>
+    <header>
+      <h1>{{model.title}}</h1>
+      <div>
+        <span *ngFor="let tag of model.tags" class="badge badge-secondary">{{tag}}</span>
+      </div>
+    </header>
+    <section><p class="blog-text">{{model.text}}</p></section>
+    <footer>
+      <div>{{model.author}}</div>
+      <div>{{model.created | date:long}}</div>
+      <div>{{model.modified | date:long}}</div>
+    </footer>
+  </section>
 </article>
 <article *ngIf="!model">
 

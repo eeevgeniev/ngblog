@@ -44,6 +44,8 @@ export class EditArticleComponent implements OnInit {
       .subscribe((responseModel: ResponseModel) => {
         if (responseModel.success === true) {
           this.messageService.add('Image/images was/were uploaded.');
+        } else {
+          this.messageService.add(responseModel.message);
         }
       });
   }

@@ -209,17 +209,20 @@ module.exports = {
                 return;
             }
 
-            if (article.images.length >= 5 || article.images.length + req.files.length >= 5) {
+            if (article.images.length > 5 || article.images.length + req.files.length > 5) {
                 createErrorResponse(res, 'Article can have maximum 5 images.');
                 return;
             }
 
-            let images = [];
+            let images = [],
+                counter = 0;
 
             for (let i = 0, length = req.files.length; i < length; i += 1) {
                 let filePath = path.join(imageDirectory, req.files[i].filename + req.files[i].originalname),
                     tempPath = path.join(__dirname, '../temp/' + req.files[i].filename);
                     imagePath = '/images/' + req.files[i].filename + req.files[i].originalname;
+
+                images.push(imagePath);
 
                 fs.copyFile(tempPath, filePath, (error) => {
                     if (error) {
@@ -227,9 +230,9 @@ module.exports = {
                         return;
                     }
 
-                    images.push(imagePath)
+                    counter++;
 
-                    if (images.length === req.files.length) {
+                    if (counter === req.files.length) {
                         fs.readdir(path.join(__dirname, '../temp/'), (error, files) => {
                             if (error) {
                                 console.log(error);
@@ -239,7 +242,9 @@ module.exports = {
                             files.forEach(f => {
                                 let fileToDeletePath = path.join(__dirname, '../temp/', f);
                                 fs.unlink(fileToDeletePath, (error) => {
-                                    console.log(error);
+                                    if (error) {
+                                        console.log(error);
+                                    }
                                 });
                             })
                         });
