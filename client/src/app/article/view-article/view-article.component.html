@@ -11,11 +11,11 @@
         <span *ngFor="let tag of model.tags" class="badge badge-secondary">{{tag}}</span>
       </div>
     </header>
-    <section><p class="blog-text">{{model.text}}</p></section>
+    <section><pre class="blog-text">{{model.text}}</pre></section>
     <footer>
-      <div>{{model.author}}</div>
-      <div>{{model.created | date:long}}</div>
-      <div>{{model.modified | date:long}}</div>
+      <div>Author: {{model.author}}</div>
+      <div>Created At: {{model.created | date:long}}</div>
+      <div>Modified At: {{model.modified | date:long}}</div>
     </footer>
   </section>
 </article>

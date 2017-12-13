@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { HttpRequesterService } from '../../services/requester/http-requester.service';
 import { BlogStoreService  } from '../../services/store/blog-store.service';
 import { LoginModel } from '../../models/users/loginModel';
@@ -17,6 +18,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private httpRequesterService: HttpRequesterService, 
     private blogStoreService: BlogStoreService,
+    private router: Router,
     private messageService: MessageService ) { }
 
   ngOnInit() {
@@ -40,7 +42,7 @@ export class LoginComponent implements OnInit {
       .subscribe((loginUserModel: LoginUserModel) => {
         if (loginUserModel.success === true) {
           this.blogStoreService.registerUser(loginUserModel.username, loginUserModel.token);
-          window.location.href = '/articles/1';
+          this.router.navigate(['/articles/1']);
         } else {
           this.messageService.add(loginUserModel.message);
         }

@@ -11,7 +11,8 @@ import { MessageService } from '../../services/messages/message.service';
   styleUrls: ['./articles.component.css']
 })
 export class ArticlesComponent implements OnInit {
-  private articleInfoViewModel: ArticleInfoViewModel[] = [];
+  private articleInfoViewModel: ArticleInfoViewModel[][] = [];
+  private images: string[] = [];
   private page: number = 0;
   private pages: number[] = [];
   private search: string = '';
@@ -26,15 +27,30 @@ export class ArticlesComponent implements OnInit {
       this.page = parseInt(params.page);
       this.reloadPage();
     });
-
-    this.reloadPage();
   }
 
   reloadPage() {
     this.httpRequesterService.getArticles(this.page)
     .subscribe((articlePageViewModel: ArticlePageViewModel) => {
+      this.articleInfoViewModel = [];
+
       if (articlePageViewModel.success === true) {
-        this.articleInfoViewModel = articlePageViewModel.articles;
+        let counter = 0,
+            articles: ArticleInfoViewModel[] = [];
+
+        articlePageViewModel.articles.forEach(a => {
+          articles.push(a);
+          counter++;
+
+          if (counter === 4) {
+            this.articleInfoViewModel.push(articles);
+            articles = [];
+            counter = 0;
+          }
+        });
+
+        this.articleInfoViewModel.push(articles);
+
         this.page = articlePageViewModel.page;
         this.pages = [];
         for (let i = 1; i <= articlePageViewModel.pages; i += 1) {

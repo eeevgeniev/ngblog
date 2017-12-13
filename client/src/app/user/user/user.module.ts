@@ -6,6 +6,7 @@ import { BlogRoutingModule } from '../../blog-routing/blog-routing.module';
 import { LoginComponent } from '../login/login.component';
 import { MeComponent } from '../me/me.component';
 import { RegisterComponent } from '../register/register.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { RegisterComponent } from '../register/register.component';
     MeComponent
   ],
   imports: [
+    NgbModule,
     CommonModule,
     FormsModule,
     HttpClientModule,

@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const Article = require('../models/article');
 const Image = require('../models/image');
-const limit = 10;
+const limit = 12;
 const imageDirectory = path.join(__dirname, '../public/images');
 
 createErrorResponse = (res, message) => {

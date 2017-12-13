@@ -13,6 +13,7 @@ import { MessageComponent } from './messages/message/message.component';
 import { MessageService } from './services/messages/message.service';
 import { AuthGuardianService } from './guards/auth-guardian.service';
 import { NoAuthGuardianService } from './guards/noauth-guardian.service';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { NoAuthGuardianService } from './guards/noauth-guardian.service';
     MessageComponent
   ],
   imports: [
+    NgbModule.forRoot(),
     BrowserModule,
     FormsModule,
     HttpClientModule,

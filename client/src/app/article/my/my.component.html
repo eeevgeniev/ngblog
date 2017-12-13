@@ -1,16 +1,19 @@
 <div *ngIf="articleInfoViewModel">
-  <div class="row">
-    <section *ngFor="let article of articleInfoViewModel" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-        <header>
-          <h3>{{article.title}}</h3>
-          <div><span *ngFor="let tag of article.tags" class="badge badge-secondary">{{tag}}</span></div>
-        </header>
-        <footer>
-          <div>Author {{article.author}}</div>
-          <div>Created At {{article.created | date:long}}</div>
-          <a routerLink="/article/{{article._id}}" class="btn btn-sm btn-primary">View</a>
-          <a routerLink="/edit/{{article._id}}" class="btn btn-sm btn-default">Edit</a>
-        </footer>
+  <div>
+    <section *ngFor="let articleArr of articleInfoViewModel">
+      <div class="row">
+        <section *ngFor="let article of articleArr" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 card">
+          <header>
+            <h3>{{article.title}}</h3>
+            <div><span *ngFor="let tag of article.tags" class="badge badge-secondary">{{tag}}</span></div>
+          </header>
+          <footer>
+            <div>Author {{article.author}}</div>
+            <div>Created At {{article.created | date:long}}</div>
+            <a routerLink="/article/{{article._id}}" class="btn btn-sm btn-primary">View</a>
+          </footer>
+        </section>
+      </div>
     </section>
   </div>
 <div>

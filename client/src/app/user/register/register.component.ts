@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { RegisterModel } from '../../models/users/registerModel';
 import { HttpRequesterService } from '../../services/requester/http-requester.service';
 import { LoginUserModel } from '../../models/users/loginUserModel';
@@ -16,6 +17,7 @@ export class RegisterComponent implements OnInit {
   
   constructor(
     private httpRequesterService: HttpRequesterService, 
+    private router: Router,
     private blogStoreService: BlogStoreService,
     private messageService: MessageService) { }
 
@@ -54,6 +56,7 @@ export class RegisterComponent implements OnInit {
       .subscribe((loginUserModel: LoginUserModel) => {
         if (loginUserModel.success === true) {
           this.blogStoreService.registerUser(loginUserModel.username, loginUserModel.token);
+          this.router.navigate(['/articles/1']);
         } else {
           this.messageService.add(loginUserModel.message);
         }

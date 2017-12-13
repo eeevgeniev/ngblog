@@ -8,6 +8,7 @@ import { CreateArticleComponent  } from '../create-article/create-article.compon
 import { EditArticleComponent } from '../edit-article/edit-article.component';
 import { MyComponent } from '../my/my.component';
 import { ViewArticleComponent } from '../view-article/view-article.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { ViewArticleComponent } from '../view-article/view-article.component';
     ViewArticleComponent
   ],
   imports: [
+    NgbModule,
     CommonModule,
     BlogRoutingModule,
     FormsModule,

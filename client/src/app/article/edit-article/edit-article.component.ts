@@ -54,8 +54,8 @@ export class EditArticleComponent implements OnInit {
   onImagesSubmit(event) {
     var form = new FormData(event.target as HTMLFormElement);
 
-    if (!form.has('photos')) {
-      this.messageService.add('No photos selected.');
+    if (!form.get('photos')) {
+      this.messageService.add('No photos added.');
       return;
     }
     

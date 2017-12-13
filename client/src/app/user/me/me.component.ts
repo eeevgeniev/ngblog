@@ -40,8 +40,8 @@ export class MeComponent implements OnInit {
     
     this.httpRequestService.updatePassword(this.passwordModel)
       .subscribe((responseModel: ResponseModel) => {
-        if (responseModel.success) {
-
+        if (responseModel.success === true) {
+          this.messageService.add('Password updated.');
         } else {
           console.log(responseModel.message);
         }
