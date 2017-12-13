@@ -20,6 +20,24 @@ export class MeComponent implements OnInit {
     private messageService: MessageService) { }
 
   onSubmit() {
+    this.passwordModel.password = this.passwordModel.password.trim();
+    this.passwordModel.confirmPassword = this.passwordModel.confirmPassword.trim();
+
+    if (this.passwordModel.password.length < 4) {
+      this.messageService.add('Password must be at least 4 characters.')
+      return;
+    }
+
+    if (this.passwordModel.confirmPassword.length < 4) {
+      this.messageService.add('Confirm password must be at least 4 characters.')
+      return;
+    }
+
+    if (this.passwordModel.password !== this.passwordModel.confirmPassword) {
+      this.messageService.add('Password and confirm password do not match.')
+      return;
+    }
+    
     this.httpRequestService.updatePassword(this.passwordModel)
       .subscribe((responseModel: ResponseModel) => {
         if (responseModel.success) {

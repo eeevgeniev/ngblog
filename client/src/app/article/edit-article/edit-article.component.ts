@@ -28,6 +28,19 @@ export class EditArticleComponent implements OnInit {
     private messageService: MessageService) { }
 
   onSubmit() {
+    this.model.text = this.model.text.trim();
+    this.model.title = this.model.title.trim();
+
+    if (this.model.title.length < 5 || 50 < this.model.title.length) {
+      this.messageService.add('Article title must be between 5 and 50 characters length.');
+      return;
+    }
+
+    if (this.model.text.length < 20) {
+      this.messageService.add('Article description must be longer than 20 characters.');
+      return;
+    }
+    
     this.httpRequesterService.editArticle(this.model)
       .subscribe((articleResponseModel: ArticleResponseModel) => {
         if (articleResponseModel.success) {
@@ -40,6 +53,12 @@ export class EditArticleComponent implements OnInit {
 
   onImagesSubmit(event) {
     var form = new FormData(event.target as HTMLFormElement);
+
+    if (!form.has('photos')) {
+      this.messageService.add('No photos selected.');
+      return;
+    }
+    
     this.httpRequesterService.uploadImages(this.model._id, form)
       .subscribe((responseModel: ResponseModel) => {
         if (responseModel.success === true) {

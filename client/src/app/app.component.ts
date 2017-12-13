@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { BlogStoreService } from './services/store/blog-store.service';
 import { HttpRequesterService } from './services/requester/http-requester.service';
+import { MessageService } from './services/messages/message.service';
 import { ResponseModel } from './models/responses/responseModel';
 
 @Component({
@@ -10,26 +12,24 @@ import { ResponseModel } from './models/responses/responseModel';
 })
 export class AppComponent implements OnInit {
   private title = 'NgBlog';
-  private username: string = null;
 
   constructor(
+    private router: Router,
     private blogStoreService: BlogStoreService,
-    private httpRequestService: HttpRequesterService) {}
+    private httpRequestService: HttpRequesterService,
+    private messageService: MessageService) {}
 
   onLogout() {
     this.httpRequestService.logout()
       .subscribe((responseModel: ResponseModel) => {
-        if (responseModel.success) {
+        if (responseModel.success === true) {
           this.blogStoreService.clearStore();
-          window.location.href = '/login';
-          this.username = null;
+          this.router.navigate(['/login']);
         } else {
-          console.log(responseModel.message);
+          this.messageService.add(responseModel.message);
         }
-      })
+      });
   }
 
-  ngOnInit() {
-    this.username = this.blogStoreService.getUser();
-  }
+  ngOnInit() {}
 }

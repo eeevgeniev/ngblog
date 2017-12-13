@@ -12,6 +12,7 @@ import { MessageService } from '../../services/messages/message.service';
 })
 export class LoginComponent implements OnInit {
   private model: LoginModel = new LoginModel('', '');
+  private emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   
   constructor(
     private httpRequesterService: HttpRequesterService, 
@@ -22,6 +23,19 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.model.email = this.model.email.trim();
+    this.model.password = this.model.password.trim();
+
+    if (!this.emailRegex.test(this.model.email)) {
+      this.messageService.add('Invalid email.')
+      return;
+    }
+
+    if (this.model.password.length < 4) {
+      this.messageService.add('Password must be at least 4 characters.')
+      return;
+    }
+    
     this.httpRequesterService.loginUser(this.model)
       .subscribe((loginUserModel: LoginUserModel) => {
         if (loginUserModel.success === true) {
