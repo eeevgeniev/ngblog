@@ -12,6 +12,7 @@ import { MessageService } from '../../services/messages/message.service';
 })
 export class MyComponent implements OnInit {
   private articleInfoViewModel: ArticleInfoViewModel[][] = [];
+  private hasArticles: boolean = false;
   private page: number = 0;
   private pages: number[] = [];
 
@@ -30,6 +31,12 @@ export class MyComponent implements OnInit {
   reloadPage() {
     this.httpRequesterService.getMyArticles(this.page)
     .subscribe((articlePageViewModel: ArticlePageViewModel) => {
+      if (articlePageViewModel.articles.length > 0) {
+        this.hasArticles = true;
+      } else {
+        this.hasArticles = false;
+      }
+      
       this.articleInfoViewModel = [];
       if (articlePageViewModel.success === true) {
         let counter = 0,

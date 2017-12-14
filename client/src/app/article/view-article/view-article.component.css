@@ -38,4 +38,5 @@ h1{
     white-space: pre-wrap;
     background-color: #ffffff;
     border: none;
+    word-break: normal;
 }

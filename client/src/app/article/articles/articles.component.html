@@ -1,4 +1,4 @@
-<div *ngIf="articleInfoViewModel">
+<div *ngIf="hasArticles">
   <div>
     <section *ngFor="let articleArr of articleInfoViewModel">
       <div class="row">
@@ -16,12 +16,12 @@
       </div>
     </section>
   </div>
-<div>
-  <ul class="pagination">
-    <li *ngFor="let currentPage of pages" class="page-item"><a routerLink="/articles/{{currentPage}}" class="page-link">{{currentPage}}</a></li>
-  </ul>
+  <div>
+    <ul class="pagination">
+      <li *ngFor="let currentPage of pages" class="page-item"><a routerLink="/articles/{{currentPage}}" class="page-link">{{currentPage}}</a></li>
+    </ul>
 </div>
 </div>
-<div *ngIf="!articleInfoViewModel">
+<div *ngIf="!hasArticles">
   <div>No articles.</div>
 </div>

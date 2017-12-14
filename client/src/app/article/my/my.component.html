@@ -1,4 +1,4 @@
-<div *ngIf="articleInfoViewModel">
+<div *ngIf="hasArticles">
   <div>
     <section *ngFor="let articleArr of articleInfoViewModel">
       <div class="row">
@@ -11,6 +11,7 @@
             <div>Author {{article.author}}</div>
             <div>Created At {{article.created | date:long}}</div>
             <a routerLink="/article/{{article._id}}" class="btn btn-sm btn-primary">View</a>
+            <a routerLink="/edit/{{article._id}}" class="btn btn-sm btn-default">Edit</a>
           </footer>
         </section>
       </div>
@@ -22,6 +23,6 @@
   </ul> 
 </div>
 </div>
-<div *ngIf="!articleInfoViewModel">
+<div *ngIf="!hasArticles">
   <div>No articles.</div>
 </div>

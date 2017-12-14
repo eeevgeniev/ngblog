@@ -159,7 +159,7 @@ module.exports = {
     articleUpdate: (req, res) => {
         let parameters = req.body;
 
-        Article.findOneAndUpdate({_id: parameters.id}, 
+        Article.findOneAndUpdate({_id: parameters._id}, 
             {
                 title: parameters.title,
                 text: parameters.text,
